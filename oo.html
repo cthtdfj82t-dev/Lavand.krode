@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KickZone — Premium Footwear</title>
+    <style>
+        :root {
+            --bg: #0a0a0a;
+            --surface: #141414;
+            --surface2: #1e1e1e;
+            --text: #ffffff;
+            --text2: #a0a0a0;
+            --accent: #ff6b35;
+            --accent2: #ff8c5a;
+            --gold: #f0c45a;
+            --border: #2a2a2a;
+            --shadow: 0 4px 24px rgba(0,0,0,0.5);
+            --radius: 14px;
+            --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ── SCROLLBAR ───────────── */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 3px;
+        }
+
+        /* ── TOP NAV ─────────────── */
+        .top-nav {
+            background: rgba(10,10,10,0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            padding: 12px 30px;
+            gap: 24px;
+            flex-wrap: wrap;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .logo {
+            font-size: 1.7rem;
+            font-weight: 900;
+            letter-spacing: -1px;
+            background: linear-gradient(135deg, #ff6b35, #ff8c5a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            white-space: nowrap;
+        }
+        .search-bar {
+            flex: 1;
+            min-width: 250px;
+            display: flex;
+            height: 44px;
+            position: relative;
+        }
+        .search-bar input {
+            flex: 1;
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            color: white;
+            padding: 0 50px 0 18px;
+            font-size: 0.9rem;
+            border-radius: 22px;
+            outline: none;
+            transition: var(--transition);
+        }
+        .search-bar input:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(255,107,53,0.15);
+        }
+        .search-bar button {
+            position: absolute;
+            right: 4px;
+            top: 4px;
+            background: var(--accent);
+            border: none;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+        .search-bar button:hover {
+            background: var(--accent2);
+            transform: scale(1.05);
+        }
+        .nav-icons {
+            display: flex;
+            gap: 18px;
+            align-items: center;
+        }
+        .nav-icons a {
+            color: var(--text2);
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            white-space: nowrap;
+        }
+        .nav-icons a:hover {
+            color: white;
+        }
+        .cart-btn {
+            background: var(--accent);
+            color: white !important;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+        .cart-count {
+            background: white;
+            color: var(--accent);
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: 800;
+        }
+
+        /* ── HERO ────────────────── */
+        .hero {
+            background: linear-gradient(160deg, #1a1a2e 0%, #0f0f1a 40%, #0a0a0a 100%);
+            text-align: center;
+            padding: 70px 20px 80px;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -100px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(255,107,53,0.12) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        .hero-badge {
+            display: inline-block;
+            background: rgba(255,107,53,0.15);
+            border: 1px solid rgba(255,107,53,0.3);
+            color: var(--accent2);
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            margin-bottom: 16px;
+            position: relative;
+            z-index: 1;
+        }
+        .hero h1 {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 900;
+            letter-spacing: -2px;
+            position: relative;
+            z-index: 1;
+            line-height: 1.1;
+        }
+        .hero h1 span {
+            background: linear-gradient(135deg, #ff6b35, #f0c45a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .hero p {
+            font-size: 1.1rem;
+            color: var(--text2);
+            margin-top: 12px;
+            position: relative;
+            z-index: 1;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .hero-btn {
+            display: inline-block;
+            margin-top: 22px;
+            background: var(--accent);
+            color: white;
+            padding: 14px 36px;
+            border-radius: 28px;
+            font-weight: 700;
+            text-decoration: none;
+            font-size: 1rem;
+            transition: var(--transition);
+            position: relative;
+            z-index: 1;
+            box-shadow: 0 8px 32px rgba(255,107,53,0.35);
+        }
+        .hero-btn:hover {
+            background: var(--accent2);
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(255,107,53,0.5);
+        }
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 35px;
+            position: relative;
+            z-index: 1;
+            flex-wrap: wrap;
+        }
+        .hero-stat {
+            text-align: center;
+        }
+        .hero-stat .num {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: var(--gold);
+        }
+        .hero-stat .label {
+            font-size: 0.75rem;
+            color: var(--text2);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* ── FILTER BAR ──────────── */
+        .filter-bar {
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+            padding: 14px 30px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            align-items: center;
+            position: sticky;
+            top: 70px;
+            z-index: 99;
+        }
+        .filter-btn {
+            background: var(--surface2);
+            color: var(--text2);
+            border: 1px solid var(--border);
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.82rem;
+            font-weight: 500;
+            transition: var(--transition);
+            white-space: nowrap;
+        }
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: var(--accent);
+            color: white;
+            border-color: var(--accent);
+        }
+        .filter-btn.active {
+            box-shadow: 0 0 0 3px rgba(255,107,53,0.2);
+        }
+        .result-count {
+            margin-left: auto;
+            color: var(--text2);
+            font-size: 0.82rem;
+            white-space: nowrap;
+        }
+
+        /* ── PRODUCT GRID ────────── */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 20px;
+            padding: 25px 30px 50px;
+            max-width: 1500px;
+            margin: 0 auto;
+        }
+        .product-card {
+            background: var(--surface);
+            border-radius: var(--radius);
+            overflow: hidden;
+            transition: var(--transition);
+            border: 1px solid var(--border);
+            cursor: pointer;
+            position: relative;
+        }
+        .product-card:hover {
+            transform: translateY(-6px);
+            box-shadow: var(--shadow);
+            border-color: #444;
+        }
+        .product-img {
+            height: 220px;
+            background: var(--surface2);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .product-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: 0.5s ease;
+        }
+        .product-card:hover .product-img img {
+            transform: scale(1.08);
+        }
+        .product-tag {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            z-index: 2;
+            letter-spacing: 0.5px;
+        }
+        .tag-new {
+            background: #4caf50;
+            color: white;
+        }
+        .tag-sale {
+            background: #e74c3c;
+            color: white;
+        }
+        .tag-hot {
+            background: var(--accent);
+            color: white;
+        }
+        .wishlist-btn {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: rgba(0,0,0,0.5);
+            border: none;
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 0.9rem;
+            z-index: 2;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(4px);
+        }
+        .wishlist-btn:hover {
+            background: #e74c3c;
+            transform: scale(1.1);
+        }
+        .product-info {
+            padding: 16px;
+        }
+        .product-info .brand {
+            font-size: 0.75rem;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+        .product-info h3 {
+            font-size: 0.95rem;
+            font-weight: 600;
+            margin: 4px 0;
+            line-height: 1.3;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            color: white;
+        }
+        .product-info .category-tag {
+            display: inline-block;
+            background: var(--surface2);
+            color: var(--text2);
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.65rem;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .price-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 6px;
+        }
+        .price {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: white;
+        }
+        .old-price {
+            text-decoration: line-through;
+            color: #666;
+            font-size: 0.8rem;
+        }
+        .rating {
+            color: var(--gold);
+            font-size: 0.78rem;
+            margin-top: 4px;
+        }
+        .rating span {
+            color: var(--text2);
+        }
+        .add-cart-btn {
+            display: block;
+            width: 100%;
+            margin-top: 12px;
+            background: transparent;
+            color: white;
+            border: 1px solid #444;
+            padding: 10px;
+            border-radius: 22px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            text-align: center;
+        }
+        .add-cart-btn:hover {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: white;
+        }
+
+        /* ── PAGINATION ──────────── */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            padding: 10px 30px 40px;
+            flex-wrap: wrap;
+        }
+        .page-btn {
+            background: var(--surface2);
+            color: var(--text2);
+            border: 1px solid var(--border);
+            padding: 10px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: var(--transition);
+        }
+        .page-btn:hover,
+        .page-btn.active {
+            background: var(--accent);
+            color: white;
+            border-color: var(--accent);
+        }
+
+        /* ── NEWSLETTER ──────────── */
+        .newsletter {
+            background: var(--surface);
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            padding: 50px 20px;
+            text-align: center;
+            margin: 20px 0;
+        }
+        .newsletter h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        .newsletter p {
+            color: var(--text2);
+            margin-bottom: 18px;
+        }
+        .newsletter-form {
+            display: flex;
+            max-width: 420px;
+            margin: 0 auto;
+            height: 46px;
+        }
+        .newsletter-form input {
+            flex: 1;
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            color: white;
+            padding: 0 16px;
+            border-radius: 23px 0 0 23px;
+            outline: none;
+        }
+        .newsletter-form button {
+            background: var(--accent);
+            border: none;
+            color: white;
+            padding: 0 24px;
+            border-radius: 0 23px 23px 0;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .newsletter-form button:hover {
+            background: var(--accent2);
+        }
+
+        /* ── FOOTER ──────────────── */
+        footer {
+            background: var(--surface);
+            padding: 40px 30px 20px;
+            border-top: 1px solid var(--border);
+        }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 25px;
+            max-width: 1200px;
+            margin: 0 auto 25px;
+        }
+        footer h4 {
+            color: white;
+            font-size: 0.9rem;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        footer a {
+            color: var(--text2);
+            text-decoration: none;
+            font-size: 0.8rem;
+            display: block;
+            margin: 5px 0;
+            transition: var(--transition);
+        }
+        footer a:hover {
+            color: var(--accent);
+        }
+        .footer-bottom {
+            text-align: center;
+            color: var(--text2);
+            font-size: 0.75rem;
+            padding-top: 15px;
+            border-top: 1px solid var(--border);
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* ── RESPONSIVE ──────────── */
+        @media (max-width: 768px) {
+            .top-nav {
+                padding: 10px 15px;
+                gap: 10px;
+            }
+            .nav-icons a {
+                font-size: 0.75rem;
+                gap: 3px;
+            }
+            .hero {
+                padding: 40px 15px 50px;
+            }
+            .hero-stats {
+                gap: 20px;
+            }
+            .hero-stat .num {
+                font-size: 1.2rem;
+            }
+            .product-grid {
+                grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+                gap: 12px;
+                padding: 15px;
+            }
+            .product-img {
+                height: 160px;
+            }
+            .product-info {
+                padding: 10px;
+            }
+            .product-info h3 {
+                font-size: 0.8rem;
+            }
+            .price {
+                font-size: 1rem;
+            }
+            .filter-bar {
+                padding: 10px 15px;
+                gap: 6px;
+                top: 55px;
+            }
+            .filter-btn {
+                padding: 6px 12px;
+                font-size: 0.7rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ═══════ TOP NAVIGATION ═══════ -->
+    <header class="top-nav">
+        <div class="logo">KICKZONE</div>
+        <div class="search-bar">
+            <input type="text" placeholder="Search 100+ shoes...">
+            <button>🔍</button>
+        </div>
+        <div class="nav-icons">
+            <a href="#">❤️ Wishlist</a>
+            <a href="#">📦 Orders</a>
+            <a href="#">👤 Account</a>
+            <a href="#" class="cart-btn">🛒 <span class="cart-count">2</span></a>
+        </div>
+    </header>
+
+    <!-- ═══════ HERO ═══════ -->
+    <section class="hero">
+        <div class="hero-badge">✨ 100+ PREMIUM SHOES</div>
+        <h1>Step Into <span>Greatness</span></h1>
+        <p>From sneakers to formal — every pair tells a story. Find your perfect fit.</p>
+        <a href="#shop" class="hero-btn">🔥 Shop Now</a>
+        <div class="hero-stats">
+            <div class="hero-stat"><div class="num">100+</div><div class="label">Shoes</div></div>
+            <div class="hero-stat"><div class="num">15+</div><div class="label">Brands</div></div>
+            <div class="hero-stat"><div class="num">50K+</div><div class="label">Happy Feet</div></div>
+            <div class="hero-stat"><div class="num">⭐ 4.8</div><div class="label">Rating</div></div>
+        </div>
+    </section>
+
+    <!-- ═══════ FILTER BAR ═══════ -->
+    <div class="filter-bar" id="shop">
+        <button class="filter-btn active" onclick="filterShoes('all', this)">All Shoes</button>
+        <button class="filter-btn" onclick="filterShoes('sneakers', this)">👟 Sneakers</button>
+        <button class="filter-btn" onclick="filterShoes('running', this)">🏃 Running</button>
+        <button class="filter-btn" onclick="filterShoes('basketball', this)">🏀 Basketball</button>
+        <button class="filter-btn" onclick="filterShoes('formal', this)">👞 Formal</button>
+        <button class="filter-btn" onclick="filterShoes('casual', this)">👟 Casual</button>
+        <button class="filter-btn" onclick="filterShoes('boots', this)">🥾 Boots</button>
+        <span class="result-count" id="resultCount">Showing 108 shoes</span>
+    </div>
+
+    <!-- ═══════ PRODUCT GRID ═══════ -->
+    <div class="product-grid" id="productGrid">
+        <!-- Filled by JavaScript -->
+    </div>
+
+    <!-- ═══════ PAGINATION ═══════ -->
+    <div class="pagination" id="pagination">
+        <!-- Filled by JavaScript -->
+    </div>
+
+    <!-- ═══════ NEWSLETTER ═══════ -->
+    <section class="newsletter">
+        <h2>📬 Get Early Access</h2>
+        <p>New drops, exclusive deals, and restock alerts straight to your inbox.</p>
+        <div class="newsletter-form">
+            <input type="email" placeholder="your@email.com">
+            <button>Subscribe</button>
+        </div>
+    </section>
+
+    <!-- ═══════ FOOTER ═══════ -->
+    <footer>
+        <div class="footer-grid">
+            <div>
+                <h4>Shop</h4>
+                <a href="#">Sneakers</a>
+                <a href="#">Running</a>
+                <a href="#">Basketball</a>
+                <a href="#">Formal</a>
+                <a href="#">Boots</a>
+                <a href="#">All Shoes</a>
+            </div>
+            <div>
+                <h4>Brands</h4>
+                <a href="#">Nike</a>
+                <a href="#">Adidas</a>
+                <a href="#">Puma</a>
+                <a href="#">New Balance</a>
+                <a href="#">Vans</a>
+                <a href="#">Converse</a>
+            </div>
+            <div>
+                <h4>Help</h4>
+                <a href="#">Size Guide</a>
+                <a href="#">Shipping</a>
+                <a href="#">Returns</a>
+                <a href="#">FAQ</a>
+                <a href="#">Contact</a>
+            </div>
+            <div>
+                <h4>About</h4>
+                <a href="#">Our Story</a>
+                <a href="#">Blog</a>
+                <a href="#">Careers</a>
+                <a href="#">Press</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2026 <strong style="color:var(--accent);">KickZone</strong> — Premium Footwear. 100+ Shoes. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- ═══════ JAVASCRIPT ═══════ -->
+    <script>
+        // ── 108 SHOES DATABASE ──
+        const allShoes = [];
+
+        const brands = ['Nike', 'Adidas', 'Puma', 'New Balance', 'Vans', 'Converse', 'Reebok', 'Asics', 'Under Armour', 'Fila', 'Skechers', 'Brooks', 'Saucony', 'Hoka', 'On'];
+        const categories = ['sneakers', 'running', 'basketball', 'formal', 'casual', 'boots'];
+        const colors = ['Black', 'White', 'Red', 'Blue', 'Green', 'Grey', 'Navy', 'Brown', 'Beige', 'Orange'];
+
+        // Real shoe image URLs from Unsplash (reliable, always loading)
+        const shoeImages = [
+            'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400&h=300&fit=crop',
+            'https://images.unsplash.com/photo-1608231387042-66d1773070a5?w=400&h=300&fit=crop',
+            'https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=400&h=300&fit=crop',
+            'https://images.unsplash.com/photo-1560769629-975ec94e6a86?w=400&h=300&fit=crop',
+            'https://images.unsplash.com/photo-1579338559194-a162d19bf842?w=400&h=300&fit=crop',
+            'https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=400&h=300&fit=crop',
+            'https://images.unsplash.com/photo-1605034313761-73ea4a0cfbf3?w=400&h=300&fit=crop',
+            'https://images.unsplash.com/photo-1600269452121-4f2416e55c28?w=400&h=300&fit=crop',
+            'https://images.unsplash.com/photo-1607522370275-f14206abe0d3?w=400&h=300&fit=crop',
+            'https://images.unsplash.com/photo-1603808033192-5253e9a4c1e5?w=400&h=300&fit=crop',
+            'https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?w=400&h=300&fit=crop',
+            'https://images.unsplash.com/photo-1604671801908-6f0c6a092c05?w=400&h=300&fit=crop',
+            'https://images.unsplash.com/photo-1597045566677-8cf032ed6634?w=400&h=300&fit=crop',
+            'https://images.unsplash.com/photo-1600052964270-1f4238635a6e?w=400&h=300&fit=crop',
+            'https://images.unsplash.com/photo-1601924994987-69e26d50dc26?w=400&h=300&fit=crop',
+            'https://images.unsplash.com/photo-1608256246200-53e635b5b65f?w=400&h=300&fit=crop',
+            'https://images.unsplash.com/photo-1603484477857-abe1b21e40b8?w=400&h=300&fit=crop',
+            'https://images.unsplash.com/photo-1605733513597-a8f448108552?w=400&h=300&fit=crop',
+        ];
+
+        const shoeNames = [
+            'Air Max', 'Ultraboost', 'Classic Leather', 'Old Skool', 'Chuck Taylor',
+            'React Infinity', 'Gel-Kayano', 'Fresh Foam', 'Club C', 'RS-X',
+            'Air Force 1', 'Stan Smith', 'Suede Classic', 'Era', 'Jack Purcell',
+            'Pegasus', 'Solar Glide', 'Nite Jogger', 'Disruptor', 'Mindblower',
+            'Dunk Low', 'Forum', 'Clyde', 'Slip-On', 'Pro Leather',
+            'Vaporfly', 'Ultra 4D', 'Cell Alien', 'Zig Kinetica', 'Trail Blazer',
+            'Jordan Retro', 'NMD', 'Roma', 'Sk8-Hi', 'Fastbreak',
+            'Invincible', 'EQT', 'Mirage', 'Workout Plus', 'Venom',
+        ];
+
+        // Generate 108 shoes
+        for (let i = 0; i < 108; i++) {
+            const brand = brands[i % brands.length];
+            const category = categories[i % categories.length];
+            const color = colors[i % colors.length];
+            const name = shoeNames[i % shoeNames.length];
+            const imgIndex = i % shoeImages.length;
+            const basePrice = [59, 69, 79, 89, 99, 109, 119, 129, 139, 149, 159, 169, 179, 189, 199, 219, 249, 279][i % 18];
+
+            const tags = [];
+            if (i < 12) tags.push('new');
+            if (i % 7 === 0) tags.push('sale');
+            if (i % 13 === 0) tags.push('hot');
+
+            const hasOldPrice = tags.includes('sale') || i % 5 === 0;
+            const oldPrice = hasOldPrice ? Math.round(basePrice * 1.4) : null;
+
+            allShoes.push({
+                id: i + 1,
+                name: `${brand} ${name}`,
+                brand: brand,
+                category: category,
+                color: color,
+                price: basePrice,
+                oldPrice: oldPrice,
+                image: shoeImages[imgIndex],
+                rating: (4.0 + (Math.random() * 1.0)).toFixed(1),
+                reviews: Math.floor(Math.random() * 8000) + 200,
+                tags: tags,
+            });
+        }
+
+        const shoesPerPage = 24;
+        let currentPage = 1;
+        let currentFilter = 'all';
+        let filteredShoes = [...allShoes];
+
+        // ── RENDER PRODUCTS ──
+        function renderShoes(page) {
+            const grid = document.getElementById('productGrid');
+            const start = (page - 1) * shoesPerPage;
+            const end = start + shoesPerPage;
+            const pageShoes = filteredShoes.slice(start, end);
+
+            grid.innerHTML = pageShoes.map(shoe => {
+                const tagHtml = shoe.tags.map(tag => {
+                    const tagClass = tag === 'new' ? 'tag-new' : tag === 'sale' ? 'tag-sale' : 'tag-hot';
+                    return `<span class="product-tag ${tagClass}">${tag.toUpperCase()}</span>`;
+                }).join('');
+
+                return `
+                <div class="product-card" data-category="${shoe.category}">
+                    <div class="product-img">
+                        ${tagHtml}
+                        <button class="wishlist-btn" title="Add to Wishlist">♡</button>
+                        <img src="${shoe.image}" alt="${shoe.name}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400&h=300&fit=crop'">
+                    </div>
+                    <div class="product-info">
+                        <span class="brand">${shoe.brand}</span>
+                        <h3>${shoe.name}</h3>
+                        <span class="category-tag">${shoe.category} · ${shoe.color}</span>
+                        <div class="price-row">
+                            <span class="price">$${shoe.price}</span>
+                            ${shoe.oldPrice ? `<span class="old-price">$${shoe.oldPrice}</span>` : ''}
+                        </div>
+                        <div class="rating">⭐ ${shoe.rating} <span>(${shoe.reviews.toLocaleString()})</span></div>
+                        <button class="add-cart-btn">Add to Cart</button>
+                    </div>
+                </div>`;
+            }).join('');
+
+            document.getElementById('resultCount').textContent =
+                `Showing ${filteredShoes.length} shoes`;
+            renderPagination();
+        }
+
+        // ── PAGINATION ──
+        function renderPagination() {
+            const totalPages = Math.ceil(filteredShoes.length / shoesPerPage);
+            const paginationDiv = document.getElementById('pagination');
+            let html = '';
+
+            html += `<button class="page-btn" onclick="goToPage(${currentPage - 1})" ${currentPage === 1 ? 'disabled style="opacity:0.4"' : ''}>← Prev</button>`;
+
+            for (let i = 1; i <= totalPages; i++) {
+                if (totalPages <= 7 || i === 1 || i === totalPages || (i >= currentPage - 1 && i <= currentPage + 1)) {
+                    html += `<button class="page-btn ${i === currentPage ? 'active' : ''}" onclick="goToPage(${i})">${i}</button>`;
+                } else if (i === currentPage - 2 || i === currentPage + 2) {
+                    html += `<span style="color:#666;padding:10px 5px;">…</span>`;
+                }
+            }
+
+            html += `<button class="page-btn" onclick="goToPage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled style="opacity:0.4"' : ''}>Next →</button>`;
+            paginationDiv.innerHTML = html;
+        }
+
+        function goToPage(page) {
+            const totalPages = Math.ceil(filteredShoes.length / shoesPerPage);
+            if (page < 1 || page > totalPages) return;
+            currentPage = page;
+            renderShoes(page);
+            window.scrollTo({ top: 400, behavior: 'smooth' });
+        }
+
+        // ── FILTER ──
+        function filterShoes(category, btn) {
+            currentFilter = category;
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            if (category === 'all') {
+                filteredShoes = [...allShoes];
+            } else {
+                filteredShoes = allShoes.filter(shoe => shoe.category === category);
+            }
+
+            currentPage = 1;
+            renderShoes(1);
+            window.scrollTo({ top: 400, behavior: 'smooth' });
+        }
+
+        // ── INIT ──
+        renderShoes(1);
+
+        // ── SEARCH ──
+        document.querySelector('.search-bar input').addEventListener('input', function(e) {
+            const query = e.target.value.toLowerCase().trim();
+            if (query === '') {
+                filterShoes('all', document.querySelector('.filter-btn.active'));
+                return;
+            }
+            filteredShoes = allShoes.filter(shoe =>
+                shoe.name.toLowerCase().includes(query) ||
+                shoe.brand.toLowerCase().includes(query) ||
+                shoe.category.toLowerCase().includes(query) ||
+                shoe.color.toLowerCase().includes(query)
+            );
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById('resultCount').textContent = `Found ${filteredShoes.length} shoes`;
+            currentPage = 1;
+            renderShoes(1);
+        });
+    </script>
+</body>
+</html>
